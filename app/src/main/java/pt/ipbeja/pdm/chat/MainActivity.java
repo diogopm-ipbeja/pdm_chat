@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     private ContactAdapter adapter;
 
+    private View emptyContactsHint;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView list = findViewById(R.id.contact_list);
         FloatingActionButton createContactFab = findViewById(R.id.create_contact_fab);
+        this.emptyContactsHint = findViewById(R.id.no_contacts_hint);
 
 
         this.adapter = new ContactAdapter();
@@ -49,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         List<Contact> contacts = new ArrayList<>(); // TODO pedir a lista de contactos à BD
+        this.emptyContactsHint.setVisibility(contacts.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         this.adapter.setData(contacts);
     }
 
