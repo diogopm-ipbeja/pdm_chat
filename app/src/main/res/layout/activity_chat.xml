@@ -37,8 +37,8 @@
                 android:background="#0000"
                 android:layout_weight="1"
                 android:inputType="textMultiLine"
-
-                tools:text="Some message" />
+                android:hint="Type a message"
+                />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/send_message_btn"

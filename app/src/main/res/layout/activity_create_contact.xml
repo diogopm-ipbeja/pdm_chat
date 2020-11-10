@@ -24,7 +24,7 @@
             android:id="@+id/contact_name_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Insira o nome do contacto" />
+            android:hint="Type your contact name" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="Criar contacto"
+        android:text="Create contact"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
