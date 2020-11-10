@@ -8,6 +8,7 @@
     android:clipToPadding="false"
     android:clipChildren="false">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -44,10 +45,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_weight="1"
                 android:clickable="true"
-
-                app:srcCompat="@drawable/ic_baseline_send_24" />
+                app:srcCompat="@drawable/ic_baseline_send_24"
+                android:contentDescription="TODO" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
@@ -62,5 +62,7 @@
         android:orientation="vertical"
         android:paddingVertical="8dp"
         android:clipToPadding="false"
+
+        app:stackFromEnd="true"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

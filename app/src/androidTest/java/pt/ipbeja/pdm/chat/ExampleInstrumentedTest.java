@@ -18,6 +18,5 @@ public class ExampleInstrumentedTest {
     @Test
     public void useAppContext() {
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
-
     }
 }
