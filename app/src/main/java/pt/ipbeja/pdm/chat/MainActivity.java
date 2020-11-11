@@ -1,16 +1,15 @@
 package pt.ipbeja.pdm.chat;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,6 +17,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ipbeja.pdm.chat.data.ChatDatabase;
 import pt.ipbeja.pdm.chat.data.Contact;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         RecyclerView list = findViewById(R.id.contact_list);
         FloatingActionButton createContactFab = findViewById(R.id.create_contact_fab);
         this.emptyContactsHint = findViewById(R.id.no_contacts_hint);
@@ -42,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // LinearLayoutManager já está definido no XML
 
         createContactFab.setOnClickListener(v -> {
-            // TODO abrir ecrã para criar um contacto (ver starter)
+            CreateContactActivity.start(MainActivity.this);
         });
 
     }
@@ -51,7 +54,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        List<Contact> contacts = new ArrayList<>(); // TODO pedir a lista de contactos à BD
+        refreshContacts();
+    }
+
+    private void refreshContacts() {
+        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAll(); // TODO pedir a lista de contactos à BD
+
+        String contactCount = getResources().getQuantityString(R.plurals.contact_count, contacts.size(), contacts.size());
+        getSupportActionBar().setSubtitle(contactCount);
+
         this.emptyContactsHint.setVisibility(contacts.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         this.adapter.setData(contacts);
     }
@@ -59,16 +70,18 @@ public class MainActivity extends AppCompatActivity {
     private class ContactViewHolder extends RecyclerView.ViewHolder {
 
         private TextView name = itemView.findViewById(R.id.contact_item_name);
+        private Contact contact;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(v -> {
-                // TODO abrir chat do contacto (ver starter)
+                ChatActivity.start(MainActivity.this, contact.getId());
             });
         }
 
         public void bind(Contact contact) {
-            // TODO colocar o nome do contacto em 'name'
+            this.contact = contact;
+            this.name.setText(contact.getName());
         }
     }
 

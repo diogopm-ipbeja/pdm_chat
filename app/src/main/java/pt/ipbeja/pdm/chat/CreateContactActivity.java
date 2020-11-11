@@ -1,12 +1,17 @@
 package pt.ipbeja.pdm.chat;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
+
+import pt.ipbeja.pdm.chat.data.ChatDatabase;
+import pt.ipbeja.pdm.chat.data.Contact;
 
 public class CreateContactActivity extends AppCompatActivity {
 
@@ -24,9 +29,19 @@ public class CreateContactActivity extends AppCompatActivity {
                 Snackbar.make(nameInput, "Escreva o nome.", Snackbar.LENGTH_SHORT).show();
             }
             else {
-                // TODO criar e guardar o contacto na BD
+                Contact contact = new Contact(input);
+                ChatDatabase.getInstance(getApplicationContext())
+                        .contactDao()
+                        .insert(contact);
+                finish();
             }
         });
 
+    }
+
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, CreateContactActivity.class);
+        context.startActivity(starter);
     }
 }

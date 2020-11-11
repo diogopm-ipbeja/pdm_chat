@@ -8,6 +8,17 @@
     android:animateLayoutChanges="true">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="?attr/colorPrimary"
+        app:titleTextColor="@color/white"
+        />
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contact_list"
@@ -22,9 +33,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/contact_list_item"
-        tools:visibility="invisible"/>
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/create_contact_fab"
@@ -64,7 +75,7 @@
             android:layout_height="wrap_content"
             app:layout_constrainedWidth="true"
             android:text="😞"
-            android:textSize="48sp"/>
+            android:textSize="48sp" />
     </LinearLayout>
 
 
