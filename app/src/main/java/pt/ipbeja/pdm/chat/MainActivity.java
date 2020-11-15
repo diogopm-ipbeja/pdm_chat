@@ -32,9 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         RecyclerView list = findViewById(R.id.contact_list);
         FloatingActionButton createContactFab = findViewById(R.id.create_contact_fab);
         this.emptyContactsHint = findViewById(R.id.no_contacts_hint);

@@ -8,18 +8,6 @@
     android:animateLayoutChanges="true">
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?actionBarSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="?attr/colorPrimary"
-        app:titleTextColor="@color/white"
-        />
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/contact_list"
         android:layout_width="0dp"
@@ -33,7 +21,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/contact_list_item"
         tools:visibility="visible" />
 
@@ -45,7 +33,7 @@
         android:src="@drawable/ic_baseline_person_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:contentDescription="Create contact button" />
+        />
 
 
 
@@ -66,7 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constrainedWidth="true"
-            android:text="No contacts"
+            android:text="@string/no_contacts_hint"
             android:textSize="24sp"/>
 
 
@@ -74,7 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constrainedWidth="true"
-            android:text="😞"
+            android:text="@string/sad_face"
             android:textSize="48sp" />
     </LinearLayout>
 

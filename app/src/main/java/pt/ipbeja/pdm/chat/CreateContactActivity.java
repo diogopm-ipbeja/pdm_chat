@@ -26,7 +26,7 @@ public class CreateContactActivity extends AppCompatActivity {
         createBtn.setOnClickListener(v -> {
             String input = nameInput.getText().toString();
             if(input.isEmpty()) {
-                Snackbar.make(nameInput, "Escreva o nome.", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(nameInput, R.string.create_contact_missing_name, Snackbar.LENGTH_SHORT).show();
             }
             else {
                 Contact contact = new Contact(input);

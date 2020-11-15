@@ -1,7 +1,14 @@
 <resources>
     <string name="app_name" translatable="false">Chat</string>
-    
-    
+    <string name="create_contact_missing_name">Name is missing</string>
+    <string name="message_input_hint">Type a message</string>
+    <string name="create_contact_name_input_hint">Type your contact name</string>
+    <string name="create_contact_btn">Create contact</string>
+    <string name="no_contacts_hint">No contacts</string>
+    <string name="sad_face" translatable="false">😞</string>
+    <string name="create_contact_activity_label">Create contact</string>
+
+
     <plurals name="contact_count">
         <item quantity="one">%d contact</item>
         <item quantity="other">%d contacts</item>

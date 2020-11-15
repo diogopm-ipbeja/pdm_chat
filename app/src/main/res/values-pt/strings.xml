@@ -6,4 +6,10 @@
         <item quantity="other">%d contactos</item>
     </plurals>
 
+    <string name="create_contact_missing_name">Escreva o nome.</string>
+    <string name="message_input_hint">Escreva uma mensagem</string>
+    <string name="create_contact_btn">Criar contacto</string>
+    <string name="create_contact_name_input_hint">Escreva o nome do contacto</string>
+    <string name="no_contacts_hint">Sem contactos</string>
+    <string name="create_contact_activity_label">Criar contacto</string>
 </resources>

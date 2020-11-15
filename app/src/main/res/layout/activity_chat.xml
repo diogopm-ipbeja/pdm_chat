@@ -9,6 +9,7 @@
     android:clipChildren="false">
 
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
@@ -37,7 +38,7 @@
                 android:background="#0000"
                 android:layout_weight="1"
                 android:inputType="textMultiLine"
-                android:hint="Type a message"
+                android:hint="@string/message_input_hint"
                 />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,7 +48,6 @@
                 android:layout_gravity="bottom"
                 android:clickable="true"
                 app:srcCompat="@drawable/ic_baseline_send_24"
-                android:contentDescription="TODO"
                 android:enabled="false"/>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -64,20 +64,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:stackFromEnd="true" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:titleTextColor="@color/white" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -50,14 +50,15 @@ public class ChatActivity extends AppCompatActivity {
 
         RecyclerView messageList = findViewById(R.id.message_list);
 
+
+
         MessageAdapter adapter = new MessageAdapter(messages);
         messageList.setAdapter(adapter);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
 
         getSupportActionBar().setTitle(contact.getName());
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         EditText messageInput = findViewById(R.id.text_message_input);
         FloatingActionButton sendMsgFab = findViewById(R.id.send_message_btn);
@@ -91,6 +92,13 @@ public class ChatActivity extends AppCompatActivity {
             adapter.addMessage(chatMessage);
         });
 
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     public static void start(Context context, long contactId) {
