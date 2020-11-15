@@ -82,7 +82,7 @@ public class ChatActivity extends AppCompatActivity {
         });
 
         sendMsgFab.setOnClickListener(v -> {
-            String message = messageInput.getText().toString();
+            String message = messageInput.getText().toString().trim();
             messageInput.setText("");
             ChatMessage chatMessage = new ChatMessage(contactId, message, (int) (Math.random() + 0.5));
             ChatDatabase.getInstance(getApplicationContext())
@@ -90,6 +90,7 @@ public class ChatActivity extends AppCompatActivity {
                     .insert(chatMessage);
 
             adapter.addMessage(chatMessage);
+            messageList.smoothScrollToPosition(adapter.getItemCount());
         });
 
 
