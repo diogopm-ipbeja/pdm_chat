@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
         <activity android:name=".ChatActivity" />
-        <activity android:name=".CreateContactActivity" android:label="@string/create_contact_activity_label"/>
+        <activity
+            android:name=".CreateContactActivity"
+            android:label="@string/create_contact_activity_label" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

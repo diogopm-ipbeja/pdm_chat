@@ -6,10 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -41,9 +39,7 @@ public class MainActivity extends AppCompatActivity {
         list.setAdapter(this.adapter);
         // LinearLayoutManager já está definido no XML
 
-        createContactFab.setOnClickListener(v -> {
-            CreateContactActivity.start(MainActivity.this);
-        });
+        createContactFab.setOnClickListener(v -> CreateContactActivity.start(MainActivity.this));
 
     }
 
@@ -55,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshContacts() {
-        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAll(); // TODO pedir a lista de contactos à BD
+        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAll();
 
         String contactCount = getResources().getQuantityString(R.plurals.contact_count, contacts.size(), contacts.size());
         getSupportActionBar().setSubtitle(contactCount);
@@ -66,14 +62,12 @@ public class MainActivity extends AppCompatActivity {
 
     private class ContactViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView name = itemView.findViewById(R.id.contact_item_name);
+        private final TextView name = itemView.findViewById(R.id.contact_item_name);
         private Contact contact;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(v -> {
-                ChatActivity.start(MainActivity.this, contact.getId());
-            });
+            itemView.setOnClickListener(v -> ChatActivity.start(MainActivity.this, contact.getId()));
         }
 
         public void bind(Contact contact) {
