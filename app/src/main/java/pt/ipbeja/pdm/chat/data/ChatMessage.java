@@ -1,12 +1,21 @@
 package pt.ipbeja.pdm.chat.data;
 
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "messages")
+@Entity(tableName = "messages",
+        foreignKeys = {
+            @ForeignKey(
+                    entity = Contact.class,
+                    parentColumns = {"id"},
+                    childColumns = {"contactId"},
+                    onDelete = ForeignKey.CASCADE
+            )
+        })
 public class ChatMessage {
 
     public static final int INBOUND = 0;
@@ -16,6 +25,8 @@ public class ChatMessage {
     private long id;
 
     private long contactId;
+
+
     private String text;
     private int direction;
 

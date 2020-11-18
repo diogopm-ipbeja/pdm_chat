@@ -1,5 +1,6 @@
 package pt.ipbeja.pdm.chat;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -68,6 +70,26 @@ public class MainActivity extends AppCompatActivity {
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(v -> ChatActivity.start(MainActivity.this, contact.getId()));
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Delete contact")
+                            .setMessage("Are you sure you want to delete " + contact.getName() + "?")
+                            .setPositiveButton("Delete", (dialog, which) -> {
+                                ChatDatabase.getInstance(getApplicationContext())
+                                        .contactDao()
+                                        .delete(contact);
+                                refreshContacts();
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
+
+                    return true;
+                }
+            });
         }
 
         public void bind(Contact contact) {
