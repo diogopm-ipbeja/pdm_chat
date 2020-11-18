@@ -53,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void refreshContacts() {
-        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext()).contactDao().getAll();
+        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext())
+                .contactDao()
+                .getAll();
 
         String contactCount = getResources().getQuantityString(R.plurals.contact_count, contacts.size(), contacts.size());
         getSupportActionBar().setSubtitle(contactCount);
