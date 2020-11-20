@@ -1,17 +1,21 @@
 package pt.ipbeja.pdm.chat;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,13 +30,15 @@ import pt.ipbeja.pdm.chat.data.Contact;
 public class ChatActivity extends AppCompatActivity {
 
     public static final String CONTACT_KEY = "contact_id";
+    private long contactId;
+    private MessageAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        long contactId = getIntent().getLongExtra(CONTACT_KEY, -1);
+        this.contactId = getIntent().getLongExtra(CONTACT_KEY, -1);
         if(contactId == -1) {
             finish();
             return;
@@ -50,7 +56,7 @@ public class ChatActivity extends AppCompatActivity {
 
 
 
-        MessageAdapter adapter = new MessageAdapter(messages);
+        this.adapter = new MessageAdapter(messages);
         messageList.setAdapter(adapter);
 
 
@@ -92,6 +98,37 @@ public class ChatActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.delete_messages) {
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Delete messages")
+                    .setMessage("Are you sure you want to delete all messages?")
+                    .setPositiveButton("Delete", (dialog, which) -> {
+                        ChatDatabase.getInstance(getApplicationContext())
+                                .messageDao()
+                                .deleteAllMessages(contactId);
+                        adapter.clear();
+                    })
+                    .setCancelable(false)
+                    .setNegativeButton("Cancel", null)
+                    .show();
+
+
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -156,6 +193,11 @@ public class ChatActivity extends AppCompatActivity {
         public int getItemViewType(int position) {
             ChatMessage chatMessage = data.get(position);
             return chatMessage.getDirection();
+        }
+
+        public void clear() {
+            this.data.clear();
+            notifyDataSetChanged();
         }
     }
 }
