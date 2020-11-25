@@ -1,5 +1,6 @@
 package pt.ipbeja.pdm.chat.data;
 
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
@@ -12,16 +13,20 @@ public class Contact {
     @PrimaryKey(autoGenerate = true)
     private long id;
 
+    @Embedded
+    private Position position;
+
     private String name;
 
-    public Contact(long id, String name) {
+    public Contact(long id, String name, Position position) {
         this.id = id;
         this.name = name;
+        this.position = position;
     }
 
     @Ignore
-    public Contact(String name) {
-        this(0, name);
+    public Contact(String name, Position position) {
+        this(0, name, position);
     }
 
     public long getId() {
@@ -40,25 +45,26 @@ public class Contact {
         this.name = name;
     }
 
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Contact contact = (Contact) o;
         return id == contact.id &&
+                position.equals(contact.position) &&
                 name.equals(contact.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+        return Objects.hash(id, position, name);
     }
 }

@@ -9,7 +9,7 @@ import androidx.room.RoomDatabase;
 import pt.ipbeja.pdm.chat.data.dao.ContactDao;
 import pt.ipbeja.pdm.chat.data.dao.MessageDao;
 
-@Database(entities = {Contact.class, ChatMessage.class}, version = 3, exportSchema = false)
+@Database(entities = {Contact.class, ChatMessage.class}, version = 1, exportSchema = false)
 public abstract class ChatDatabase extends RoomDatabase {
 
     private static ChatDatabase instance;
