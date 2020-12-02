@@ -7,17 +7,24 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
+
+import pt.ipbeja.pdm.chat.data.ChatDatabase;
+import pt.ipbeja.pdm.chat.data.Contact;
+import pt.ipbeja.pdm.chat.data.Position;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,6 +37,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
+
         mapFragment.getMapAsync(this);
     }
 
@@ -38,30 +46,32 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        Marker m = mMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Marker in Sydney")
-                .snippet("Some description")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-        );
+        List<Contact> contacts = ChatDatabase.getInstance(getApplicationContext())
+                .contactDao()
+                .getAll();
 
-        m.setTag(UUID.randomUUID().toString());
+        LatLngBounds.Builder latLngBuilder = new LatLngBounds.Builder();
 
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        for (Contact contact : contacts) {
+            Position p = contact.getPosition();
+            LatLng latLng = new LatLng(p.getLat(), p.getLng());
+            latLngBuilder.include(latLng);
+            Marker marker = mMap.addMarker(
+                    new MarkerOptions()
+                            .position(latLng)
+                            .title(contact.getName())
+            );
+            marker.setTag(contact);
+        }
+        LatLngBounds bounds = latLngBuilder.build();
 
-
-        mMap.setOnMapClickListener(latLng -> {
-            mMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title("New marker"));
-        });
-
+        CameraUpdate camera = CameraUpdateFactory.newLatLngBounds(bounds, 10);
+        mMap.animateCamera(camera);
 
         mMap.setOnInfoWindowClickListener(marker -> {
-            String s = (String) marker.getTag();
-            Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+            Contact contact = (Contact) marker.getTag();
+            ChatActivity.start(MapsActivity.this, contact.getId());
+
         });
     }
 

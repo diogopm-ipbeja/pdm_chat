@@ -29,9 +29,7 @@ public class CreateContactActivity extends AppCompatActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_contact);
 
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().
-                        findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
 

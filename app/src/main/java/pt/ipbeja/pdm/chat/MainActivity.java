@@ -49,11 +49,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.view_contacts_map) {
+
+            MapsActivity.start(this);
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
