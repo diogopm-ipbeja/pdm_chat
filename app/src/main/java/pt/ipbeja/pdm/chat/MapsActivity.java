@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         LatLngBounds bounds = latLngBuilder.build();
 
-        CameraUpdate camera = CameraUpdateFactory.newLatLngBounds(bounds, 10);
+        CameraUpdate camera = CameraUpdateFactory.newLatLngBounds(bounds, 50);
         mMap.animateCamera(camera);
 
         mMap.setOnInfoWindowClickListener(marker -> {

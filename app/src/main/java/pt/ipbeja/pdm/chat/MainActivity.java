@@ -1,12 +1,15 @@
 package pt.ipbeja.pdm.chat;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +19,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,36 +92,67 @@ public class MainActivity extends AppCompatActivity {
     private class ContactViewHolder extends RecyclerView.ViewHolder {
 
         private final TextView name = itemView.findViewById(R.id.contact_item_name);
+        private final ImageView photo = itemView.findViewById(R.id.contact_item_avatar);
         private Contact contact;
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
             itemView.setOnClickListener(v -> ChatActivity.start(MainActivity.this, contact.getId()));
 
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
+            itemView.setOnLongClickListener(v -> {
 
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Delete contact")
-                            .setMessage("Are you sure you want to delete " + contact.getName() + "?")
-                            .setPositiveButton("Delete", (dialog, which) -> {
-                                ChatDatabase.getInstance(getApplicationContext())
-                                        .contactDao()
-                                        .delete(contact);
-                                refreshContacts();
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .show();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Delete contact")
+                        .setMessage("Are you sure you want to delete " + contact.getName() + "?")
+                        .setPositiveButton("Delete", (dialog, which) -> {
+                            ChatDatabase.getInstance(getApplicationContext())
+                                    .contactDao()
+                                    .delete(contact);
+                            refreshContacts();
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
 
-                    return true;
-                }
+                return true;
             });
         }
 
         public void bind(Contact contact) {
             this.contact = contact;
             this.name.setText(contact.getName());
+
+            String photoPath = contact.getPhotoPath();
+
+            // https://github.com/bumptech/glide
+            // Biblioteca para carregar imagens (ficheiros, web, bytes...)
+
+            if(photoPath != null && !photoPath.isEmpty()) {
+                File externalFilesDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+
+                File file = new File(externalFilesDir, photoPath);
+                try {
+                    byte[] photoBytes = Files.readAllBytes(file.toPath());
+                    Bitmap bitmap = BitmapUtils.toBitmap(photoBytes);
+                    this.photo.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                this.photo.setImageResource(R.drawable.ic_baseline_person_pin_24);
+            }
+
+            /*byte[] photoThumbnail = contact.getPhotoThumbnail();
+
+
+            if(photoThumbnail != null) {
+                Bitmap bm = BitmapUtils.toBitmap(photoThumbnail);
+                this.photo.setImageBitmap(bm);
+            }
+            else {
+                this.photo.setImageResource(R.drawable.ic_baseline_person_pin_24);
+            }*/
         }
     }
 
